@@ -1,2 +1,2 @@
-# GoFigure
-Computer vision algorithms for searching and analyzing technical and scientific images such as figures, diagrams and drawings.
+# GoFigure/patent-label
+Read figure labels from patent drawings.
