@@ -1,0 +1,86 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Nov 22 22:19:53 2020
+
+@author: weixi
+"""
+
+import os
+import sys
+import zipfile
+import csv
+import re
+
+n=0
+TP = 0
+FP = 0
+file_dir0 = r'D:\research\Ming_code_data\east_png_results_new'
+
+with open("east_results_orig_labels_test.csv",'w', newline='',encoding = "utf-8") as f:   # .csv file needs " "   #'wb': write as binary   # newline=''： no empty row after each row
+    csv_write = csv.writer(f)                                       # encoding = "utf-8": solves "ERROR a bytes-like object is required,not 'str'  "
+    csv_head = ["imageID", "east_label"]
+    csv_write.writerow(csv_head)
+            
+    for dirpath, dirnames, filenames in os.walk(file_dir0):  
+        for txtfile in filenames :  
+            if os.path.splitext(txtfile)[1] == '.txt': 
+                n+=1
+                print(n)
+                name = os.path.splitext(txtfile)[0]
+                name = name.split('_')
+                imageID = name[1]
+                txtfile_path = os.path.join(dirpath, txtfile)
+                with open(txtfile_path, "r",encoding = "utf-8") as f1:       # "with open(txtfile, "r") as f:  " is wrong
+                    text = f1.read()
+                    a = re.findall("[F][[A-Za-z]?[G|g][.|,]?[ ]*[0-9][0-9]?", text)  # *:  repeat 0 to many times, +: 1 to many, ? :0 or 1 times
+                    b = re.findall("Figure"+"[ ][0-9]", text)
+                    e = re.findall(r'1.3|1.7|1.5|1.2|3.4|1.4', text)
+                    #print(a)
+                    #print(b)
+                    
+                    for x in range(0, len(b)): #if b is none, won't continue
+                        if b[x] not in a:   #entlistall is list, can't use ".find"
+                            a.append(b[x])
+                    #print(a)
+                    
+                    for x in range(0, len(e)): #if b is none, won't continue
+                        a.append(e[x])
+                    
+                    TP = TP +len(a)
+                    
+                    
+                    text_new = re.sub(r"[F][[A-Za-z]?[G|g][.|,]?[ ]*[0-9][0-9]?",'',text)
+                    text_new = re.sub(r"[F][i][g][u][r][e][ ][0-9]" ,'',text_new)
+                    c = re.findall("[F][[A-Za-z][G|g|C][.|,|\s]", text_new)  # \s, 匹配任何空白字符，包括空格、制表符、换页符等等
+                    d = re.findall("[F][i][g][u][r][e]", text_new) 
+                    print(c)
+                    
+                    for x in range(0, len(c)): #if b is none, won't continue
+                       # if c[x] not in a:   
+                            a.append(c[x])
+                    
+                    for x in range(0, len(d)): #if b is none, won't continue
+                       # if c[x] not in a:   
+                            a.append(d[x])
+                    
+                    print(a)
+                    
+                    FP = FP +len(a)
+                    #if len(a) == 0:
+                     #   c = re.findall("[F][[A-Za-z][G|g][.|,][ ]*[\n]", text)
+                      #  print(c)
+                csv_row = [imageID,a]
+                csv_write.writerow(csv_row)
+                
+print("TP:", TP)
+print("FP:", FP-TP)                
+
+recall = TP/126
+print('recall = ', recall*100,'%')
+
+precision = TP/(TP+FP-TP)
+print('precision = ', precision*100,'%')
+
+F1 = (2*recall*precision)/(recall+precision)
+print("F1 =",F1)
+    
