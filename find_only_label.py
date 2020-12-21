@@ -18,8 +18,8 @@ TP = 0
 FP = 0
 file_dir0 = r'D:\research\Ming_code_data\east_png_results_new'
 
-with open("east_results_orig_labels_test.csv",'w', newline='',encoding = "utf-8") as f:   # .csv file needs " "   #'wb': write as binary   # newline=''： no empty row after each row
-    csv_write = csv.writer(f)                                       # encoding = "utf-8": solves "ERROR a bytes-like object is required,not 'str'  "
+with open("east_results_orig_labels_test.csv",'w', newline='',encoding = "utf-8") as f:   
+    csv_write = csv.writer(f)                                       
     csv_head = ["imageID", "east_label"]
     csv_write.writerow(csv_head)
             
@@ -32,9 +32,9 @@ with open("east_results_orig_labels_test.csv",'w', newline='',encoding = "utf-8"
                 name = name.split('_')
                 imageID = name[1]
                 txtfile_path = os.path.join(dirpath, txtfile)
-                with open(txtfile_path, "r",encoding = "utf-8") as f1:       # "with open(txtfile, "r") as f:  " is wrong
+                with open(txtfile_path, "r",encoding = "utf-8") as f1:       
                     text = f1.read()
-                    a = re.findall("[F][[A-Za-z]?[G|g][.|,]?[ ]*[0-9][0-9]?", text)  # *:  repeat 0 to many times, +: 1 to many, ? :0 or 1 times
+                    a = re.findall("[F][[A-Za-z]?[G|g][.|,]?[ ]*[0-9][0-9]?", text)  
                     b = re.findall("Figure"+"[ ][0-9]", text)
                     e = re.findall(r'1.3|1.7|1.5|1.2|3.4|1.4', text)
                     #print(a)
@@ -53,7 +53,7 @@ with open("east_results_orig_labels_test.csv",'w', newline='',encoding = "utf-8"
                     
                     text_new = re.sub(r"[F][[A-Za-z]?[G|g][.|,]?[ ]*[0-9][0-9]?",'',text)
                     text_new = re.sub(r"[F][i][g][u][r][e][ ][0-9]" ,'',text_new)
-                    c = re.findall("[F][[A-Za-z][G|g|C][.|,|\s]", text_new)  # \s, 匹配任何空白字符，包括空格、制表符、换页符等等
+                    c = re.findall("[F][[A-Za-z][G|g|C][.|,|\s]", text_new)  
                     d = re.findall("[F][i][g][u][r][e]", text_new) 
                     print(c)
                     
