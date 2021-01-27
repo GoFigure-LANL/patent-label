@@ -14,12 +14,12 @@ Packages needed:
 
 Write an output.csv file with the name of the input image, bounding box, and OCR text result; with one entry line per bounding box:
 ```bash
-python label_extraction.py --image_path [path_to_images]
+python label_recognition.py --image_path [path_to_images]
 ```
 
 Full help message with options:
 ```bash
-python label_extraction.py -h
+python label_recognition.py -h
 ```
 
 ## Evaluating results
