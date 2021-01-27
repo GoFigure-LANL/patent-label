@@ -12,7 +12,7 @@ Packages needed:
 
 ## Usage
 
-Write an output.csv file with the name of the input image, bounding box, and OCR text result; with one entry line per bounding box:
+Write an output.csv file with the name of the input image, list of bounding boxes, and list of OCR text results; with one entry line per image:
 ```bash
 python label_recognition.py --image_path [path_to_images]
 ```
