@@ -12,7 +12,7 @@
 #
 ####
 
-## label extraction
+## label recognition
 ## Authors: Ming Gong and Diane Oyen
 
 # Standard packages
